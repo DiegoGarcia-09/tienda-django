@@ -16,21 +16,24 @@ DEBUG = False
 # El '*' permite que cualquier dirección (incluyendo ngrok) se conecte
 ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
 
-# 4. APLICACIONES
 INSTALLED_APPS = [
-    'cloudinary',
-    'cloudinary_storage',
-
-    'productos', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',  # Vital para el formato de precios
-    
+    'django.contrib.humanize',
+
+    # Apps propias
+    'productos',
+
+    # Cloudinary (SIEMPRE al final)
+    'cloudinary',
+    'cloudinary_storage',
 ]
+    
+
 
 # 5. MIDDLEWARE
 MIDDLEWARE = [
@@ -105,10 +108,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'diegofdogarcia01@gmail.com' # El correo de tu tienda
 EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
 
+
+
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'de0qx1mkm',
-    'API_KEY': '913189987215356',
-    'API_SECRET': 'iHLj9fFNoYatHhHJSkOi8IfjYzY',
+    'CLOUD_NAME': os.environ.get('de0qx1mkm'),
+    'API_KEY': os.environ.get('913189987215356'),
+    'API_SECRET': os.environ.get('iHLj9fFNoYatHhHJSkOi8IfjYzY'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

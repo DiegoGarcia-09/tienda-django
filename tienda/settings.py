@@ -5,6 +5,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+
 # 1. RUTAS BÁSICAS
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -111,9 +112,9 @@ EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
 
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('de0qx1mkm'),
-    'API_KEY': os.environ.get('913189987215356'),
-    'API_SECRET': os.environ.get('iHLj9fFNoYatHhHJSkOi8IfjYzY'),
+    'CLOUD_NAME': 'de0qx1mkm',
+    'API_KEY': '913189987215356',
+    'API_SECRET': 'iHLj9fFNoYatHhHJSkOi8IfjYzY',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

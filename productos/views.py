@@ -71,15 +71,7 @@ def ver_carrito(request):
         except Producto.DoesNotExist:
             continue
 
-    # Aquí calculamos el total con el envío de $10.000
-    envio = 0
-    total_con_envio = total_compra + envio if total_compra > 0 else 0
-
-    return render(request, 'productos/carrito.html', {
-        'carrito': productos_finales,
-        'total_carrito': total_compra,       # Suma de productos
-        'total_con_envio': total_con_envio, # Suma + Envío
-    })
+    
 
 def eliminar_del_carrito(request, producto_id):
     carrito = request.session.get('carrito', {})

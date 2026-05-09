@@ -1,6 +1,9 @@
 import os
 import dj_database_url
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # 1. RUTAS BÁSICAS
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,6 +18,8 @@ ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
 
 # 4. APLICACIONES
 INSTALLED_APPS = [
+    'cloudinary',
+    'cloudinary_storage',
     'productos', 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -23,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',  # Vital para el formato de precios
+    
 ]
 
 # 5. MIDDLEWARE
@@ -97,3 +103,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'diegofdogarcia01@gmail.com' # El correo de tu tienda
 EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'de0qx1mkm',
+    'API_KEY': '913189987215356',
+    'API_SECRET': 'iHLj9fFNoYatHhHJSkOi8IfjYzY',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

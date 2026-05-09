@@ -5,7 +5,6 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-
 # 1. RUTAS BÁSICAS
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,10 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x@dqlo-vo9c*$(!(5uz(&5d3nv1wk7ahylwqf-n84ou+1(ck65'
 DEBUG = False
 
-# 3. CONFIGURACIÓN DE NGROK Y HOSTS
-# El '*' permite que cualquier dirección (incluyendo ngrok) se conecte
-ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
+# 3. CONFIGURACIÓN DE HOSTS
+ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost', 'tienda-django-mgsu.onrender.com']
 
+# 4. APLICACIONES
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,31 +23,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     
-    # 1. Cloudinary Storage debe ir ANTES de staticfiles
+    # Cloudinary Storage debe ir ANTES de staticfiles para tomar el control
     'cloudinary_storage', 
     'django.contrib.staticfiles',
     
-    # 2. Luego la librería base de Cloudinary
     'cloudinary',
-    
-    # 3. Tus apps y utilidades
     'django.contrib.humanize',
     'productos',
 ]
-    
-
 
 # 5. MIDDLEWARE
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Para servir estáticos en Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'tienda.urls'
@@ -65,7 +58,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
+                'django.template.context_processors.media', # Necesario para las fotos
                 'productos.context_processors.carrito_contador',
             ],
         },
@@ -92,12 +85,33 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+# URL para acceder a los archivos multimedia (Cloudinary)
+MEDIA_URL = '/media/'
 
-# 10. SEGURIDAD EXTRA PARA NGROK (CSRF)
-# Esto evita el error 403 al agregar productos al carrito desde ngrok
+# 10. CONFIGURACIÓN DE ALMACENAMIENTO (STORAGES)
+# Esta configuración permite que los archivos estáticos los maneje WhiteNoise 
+# y las imágenes las maneje Cloudinary
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# 11. CREDENCIALES DE CLOUDINARY
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'de0qx1mkm',
+    'API_KEY': '943213471526688',
+    'API_SECRET': 'Kd4UjJSf8Gz_RscpBhqYiafGH1c'
+}
+
+# 12. SEGURIDAD EXTRA Y CORREO
 CSRF_TRUSTED_ORIGINS = [
     'https://*.ngrok-free.app',
-    'https://*.ngrok.io'
+    'https://*.ngrok.io',
+    'https://tienda-django-mgsu.onrender.com'
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -106,16 +120,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'diegofdogarcia01@gmail.com' # El correo de tu tienda
-EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
-
-
-# Configuración de Almacenamiento
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-# Tus credenciales de Cloudinary (búscalas en tu Dashboard de Cloudinary)
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'de0qx1mkm',
-    'API_KEY': '943213471526688',
-    'API_SECRET': 'Kd4UjJSf8Gz_RscpBhqYiafGH1c'
-}
+EMAIL_HOST_USER = 'diegofdogarcia01@gmail.com'
+EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui'

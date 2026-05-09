@@ -23,4 +23,5 @@ class FAQ(models.Model):
 # En productos/models.py
 class Pedido(models.Model):
     # ... tus otros campos ...
-    imagen = CloudinaryField('image', null=True, blank=True) # Agrega null y blank
+
+    imagen = CloudinaryField('image', null=True, blank=True, default=None)

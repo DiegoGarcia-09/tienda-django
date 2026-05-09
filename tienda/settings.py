@@ -90,8 +90,6 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 10. SEGURIDAD EXTRA PARA NGROK (CSRF)
 # Esto evita el error 403 al agregar productos al carrito desde ngrok
@@ -108,7 +106,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'diegofdogarcia01@gmail.com' # El correo de tu tienda
 EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
-
 
 
 CLOUDINARY_STORAGE = {

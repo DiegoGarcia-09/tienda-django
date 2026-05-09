@@ -283,11 +283,7 @@
     <div id="lista-pedido-interactiva" class="flex-grow-1">
         {% for item in carrito_detallado %}
             <div class="item-pedido-lista">
-                {% if producto.imagen %}
-                <img src="{{ producto.imagen.url }}" width="80">
-            {% else %}
-                <p>Sin imagen</p>
-            {% endif %}
+                <img src="{{ item.producto.imagen.url }}" class="mini-img-pedido">
                 <div class="info-pedido">
                     <div class="nombre-p-pedido">{{ item.producto.nombre }}</div>
                     <div class="small text-muted">{{ item.cantidad }} x <b>$ {{ item.producto.precio }}</b></div>

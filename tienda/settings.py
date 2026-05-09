@@ -23,13 +23,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    
+    # 1. Cloudinary Storage debe ir ANTES de staticfiles
+    'cloudinary_storage', 
     'django.contrib.staticfiles',
-    'django.contrib.humanize',
-
-    'productos',
-
+    
+    # 2. Luego la librería base de Cloudinary
     'cloudinary',
-    'cloudinary_storage',
+    
+    # 3. Tus apps y utilidades
+    'django.contrib.humanize',
+    'productos',
 ]
     
 
@@ -106,10 +110,12 @@ EMAIL_HOST_USER = 'diegofdogarcia01@gmail.com' # El correo de tu tienda
 EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
 
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-}
-
+# Configuración de Almacenamiento
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Tus credenciales de Cloudinary (búscalas en tu Dashboard de Cloudinary)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'de0qx1mkm',
+    'API_KEY': '943213471526688',
+    'API_SECRET': 'Kd4UjJSf8Gz_RscpBhqYiafGH1c'
+}

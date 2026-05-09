@@ -54,19 +54,31 @@ def agregar_al_carrito(request, producto_id):
     return redirect(request.META.get('HTTP_REFERER', 'lista_productos'))
 
 def ver_carrito(request):
-    # ... tu lógica para obtener los productos ...
-    
-    total_suma = 0
-    for item in carrito_items:
-        total_suma += item.producto.precio * item.cantidad
+    carrito_session = request.session.get('carrito', {})
+    productos_finales = []
+    total_compra = 0
 
-    # IMPORTANTE: Aquí definimos exactamente lo que el HTML pide
-    context = {
-        'carrito_items': carrito_items,
-        'total_carrito': total_suma,       # Para el primer span de subtotal
-        'total_con_envio': total_suma,     # Para el total final (ajusta si sumas envío)
-    }
-    return render(request, 'carrito.html', context)
+    for p_id, cantidad in carrito_session.items():
+        try:
+            producto = Producto.objects.get(id=p_id)
+            subtotal = producto.precio * cantidad
+            total_compra += subtotal
+            productos_finales.append({
+                'producto': producto,
+                'cantidad': cantidad,
+                'subtotal': subtotal
+            })
+        except Producto.DoesNotExist:
+            continue
+
+    # --- AQUÍ ESTABA EL ERROR: Necesitamos definir la variable antes de usarla ---
+    total_con_envio = total_compra  # Por ahora son iguales, o súmale el envío si quieres
+
+    return render(request, 'productos/carrito.html', {
+        'carrito': productos_finales,
+        'total_carrito': total_compra,
+        'total_con_envio': total_con_envio, # Ahora sí existe
+    })
 
 def eliminar_del_carrito(request, producto_id):
     carrito = request.session.get('carrito', {})

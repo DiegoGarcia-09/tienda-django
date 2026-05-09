@@ -4,9 +4,10 @@ from .models import Producto
 
 
 def lista_productos(request):
-    productos = Producto.objects.all()
-    carrito_session = request.session.get('carrito', {})
+    # Esto asegura que solo traiga productos que tengan categoría, evitando errores de renderizado
+    productos = Producto.objects.select_related('categoria').all()
     
+    carrito_session = request.session.get('carrito', {})
     carrito_completo = []
     subtotal_acumulado = 0
     
@@ -20,14 +21,15 @@ def lista_productos(request):
                 'cantidad': cantidad,
                 'subtotal': subtotal_item
             })
-        except Producto.DoesNotExist:
+        except (Producto.DoesNotExist, ValueError):
             continue
 
-    return render(request, 'lista.html', {
-    'productos': productos,
-    'carrito_detallado': carrito_completo,
-    'subtotal_panel': subtotal_acumulado
-})
+    # Verifica si tu archivo está en 'lista.html' o 'productos/lista.html'
+    return render(request, 'productos/lista.html', {
+        'productos': productos,
+        'carrito_detallado': carrito_completo,
+        'subtotal_panel': subtotal_acumulado
+    })
 
 from django.http import JsonResponse # Asegúrate de tener este import arriba
 

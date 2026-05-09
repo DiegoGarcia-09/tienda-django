@@ -26,10 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
-    # Apps propias
     'productos',
 
-    # Cloudinary (SIEMPRE al final)
     'cloudinary',
     'cloudinary_storage',
 ]
@@ -109,9 +107,9 @@ EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
 
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'de0qx1mkm',
-    'API_KEY': '913189987215356',
-    'API_SECRET': 'iHLj9fFNoYatHhHJSkOi8IfjYzY',
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

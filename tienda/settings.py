@@ -17,7 +17,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
 
 # 4. APLICACIONES
-INSTALLED_APPS = [
+INSTALLED_APPS += [
     'cloudinary',
     'cloudinary_storage',
     'productos', 

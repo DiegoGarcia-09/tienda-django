@@ -1,0 +1,267 @@
+{% load humanize %} 
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Pedido | GRASSPET</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:700&family=Montserrat:wght@400;700&family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --grass-vibrant: #2ecc71;
+            --grass-deep: #1b4f32;
+            --text-dark: #2c3e50;
+            --text-muted: #636e72;
+        }
+
+        body { 
+            background-color: #fcfcfc; 
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+        }
+
+        /* --- NAVBAR (IGUAL A TU PRINCIPAL) --- */
+        .navbar {
+            background-color: white !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .brand-logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            margin: 0;
+            text-decoration: none;
+        }
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            padding: 0.5rem 1.2rem !important;
+        }
+        .btn-cart-nav {
+            border: 2px solid var(--grass-deep);
+            color: var(--grass-deep);
+            font-weight: 800;
+            border-radius: 50px;
+            padding: 0.5rem 1.8rem;
+            background: transparent;
+            position: relative;
+            text-decoration: none;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--grass-vibrant);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.7rem;
+        }
+
+        /* --- DISEÑO DEL CARRITO --- */
+        .cart-container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-top: 50px;
+        }
+        .cart-title {
+            font-family: 'Libre Baskerville', serif;
+            color: var(--grass-deep);
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        .table-thead {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .product-name {
+            color: var(--grass-vibrant);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .summary-card {
+            background-color: #fcfcfc;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            padding: 25px;
+        }
+        .btn-checkout {
+            background-color: var(--grass-vibrant);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            font-weight: 700;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-checkout:hover {
+            background-color: var(--grass-deep);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'lista_productos' %}">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" height="40" class="me-2">
+                <div class="brand-logo-text">
+                    <span style="color: var(--grass-deep);">GRASS</span><span style="color: var(--grass-vibrant);">PET</span>
+                </div>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto text-center">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_productos' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_productos' %}#ventajas">Beneficios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_productos' %}#productos">Productos</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
+                    </li>
+                </ul>
+                
+
+
+
+
+                
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'ver_carrito' %}" class="btn-cart-nav">
+                        <i class="fas fa-paw me-2"></i> Mi Pedido
+                        <span class="cart-badge">{{ request.session.carrito|length }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <div class="cart-container">
+            <div class="text-center mb-5">
+                <i class="fas fa-shopping-cart fa-3x mb-3" style="color: var(--grass-vibrant);"></i>
+                <h1 class="cart-title">Mi carrito de compras</h1>
+            </div>
+
+            <div class="row g-5">
+                <div class="col-lg-8">
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-thead">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in carrito %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'eliminar_del_carrito' item.producto.id %}" class="text-danger">
+                                            <i class="far fa-times-circle fs-5"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{% if item.producto.imagen %}{{ item.producto.imagen.url }}{% else %}{% static 'img/banner.png' %}{% endif %}" alt="{{ item.producto.nombre }}" class="rounded-3 me-3" style="width: 70px; height: 70px; object-fit: cover;">
+                                            <div>
+                                                <a href="#" class="product-name">{{ item.producto.nombre }}</a><br>
+                                                <small class="text-muted">Higiene Natural</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="fw-bold text-dark">$ {{ item.producto.precio|intcomma }}</td>
+                                    <td>
+                                        <input type="number" 
+                                        value="{{ item.cantidad }}" 
+                                        min="1" 
+                                        class="form-control text-center shadow-sm cantidad-input" 
+                                        data-id="{{ item.producto.id }}" 
+                                        style="width: 70px; border-radius: 10px;">
+                                    </td>
+                                    <td class="fw-bold" style="color: var(--grass-vibrant);">$ {{ item.subtotal|intcomma }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">Tu pedido está vacío.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="summary-card">
+                        <h4 class="fw-bold mb-4" style="color: var(--grass-deep);">Resumen del Pedido</h4>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span class="fw-bold">$ {{ total_carrito|intcomma }}</span>
+                        </div>
+                    
+                        
+                        <div class="d-flex justify-content-between h4 fw-bold mb-4">
+                            <span>Total</span>
+                            <span style="color: var(--grass-vibrant);">$ {{ total_con_envio|intcomma }}</span>
+                        </div>
+                        <a href="{% url 'checkout' %}" class="btn btn-success">Finalizar Compra</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.querySelectorAll('.cantidad-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const productoId = this.getAttribute('data-id');
+            const nuevaCantidad = this.value;
+
+            if (nuevaCantidad > 0) {
+                fetch(`/actualizar_carrito/${productoId}/${nuevaCantidad}/`, {
+                    method: 'GET',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); 
+                    }
+                });
+            }
+        });
+    });
+</script>
+<input type="number" 
+       value="{{ item.cantidad }}" 
+       class="form-control text-center cantidad-input"  data-id="{{ item.producto.id }}"                min="1" 
+       style="width: 70px;">
+</body>
+</html>
+

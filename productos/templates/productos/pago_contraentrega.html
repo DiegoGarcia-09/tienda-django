@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Confirmado | GrassPet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --verde-grass: #28a745;
+            --verde-oscuro: #1e7e34;
+            --gris-fondo: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gris-fondo);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card-confirmacion {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border-top: 10px solid var(--verde-grass);
+        }
+
+        .check-icon {
+            font-size: 70px;
+            color: var(--verde-grass);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+
+        .entrega-box {
+            background-color: #fff9e6;
+            border: 1px solid #ffeeba;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .entrega-box h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #856404;
+            display: flex;
+            align-items: center;
+        }
+
+        .detalle {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .detalle i {
+            font-size: 20px;
+            color: #856404;
+            margin-right: 15px;
+            margin-top: 4px;
+        }
+
+        .btn-volver {
+            background-color: var(--verde-grass);
+            color: white;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-volver:hover {
+            background-color: var(--verde-oscuro);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-confirmacion">
+        <i class="fas fa-truck-loading check-icon"></i>
+        <h1>¡Pedido Recibido!</h1>
+        <p>Tu pedido en <strong>GrassPet</strong> ha sido registrado correctamente bajo la modalidad de <strong>Pago Contra Entrega</strong>.</p>
+
+        <div class="entrega-box">
+            <h3><i class="fas fa-info-circle me-2"></i> Información Importante</h3>
+            
+            <div class="detalle">
+                <i class="fas fa-hand-holding-usd"></i>
+                <div>
+                    <strong>Paga al recibir</strong><br>
+                    Recuerda tener el dinero en efectivo o listo para transferencia al momento de recibir tu producto.
+                </div>
+            </div>
+
+            <div class="detalle">
+                <i class="fas fa-phone-alt"></i>
+                <div>
+                    <strong>Confirmación</strong><br>
+                    Nuestro equipo podría contactarte vía WhatsApp para confirmar la hora de entrega.
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 13px; color: #888; margin-bottom: 25px;">
+            ¡Pronto tu mascota disfrutará de su GrassPet!
+        </p>
+
+        <a href="/" class="btn-volver">
+            <i class="fas fa-shopping-bag me-2"></i> Volver a la Tienda
+        </a>
+    </div>
+
+</body>
+</html>

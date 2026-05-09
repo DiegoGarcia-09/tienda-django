@@ -1,0 +1,275 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRASSPET | Checkout Seguro</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --grass-vibrant: #2ecc71;
+            --grass-deep: #1b4f32;
+            --bg-light: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: #2c3e50;
+        }
+
+        .checkout-header {
+            background-color: white;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--grass-vibrant);
+            margin-bottom: 40px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .form-label {
+            font-weight: 700;
+            color: var(--grass-deep);
+            font-size: 0.9rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .summary-card {
+            background-color: var(--grass-deep);
+            color: white;
+            position: sticky;
+            top: 20px;
+            border-radius: 25px;
+        }
+
+        .btn-confirm {
+            background-color: var(--grass-vibrant);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-confirm:hover {
+            background-color: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+            color: white;
+        }
+
+        .step-indicator {
+            width: 30px;
+            height: 30px;
+            background: var(--grass-vibrant);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="checkout-header shadow-sm">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h2 class="mb-0 fw-bold" style="color: var(--grass-deep);">GRASS<span style="color: var(--grass-vibrant);">PET</span></h2>
+            <a href="{% url 'lista_productos' %}" class="text-decoration-none text-muted">
+                <i class="fas fa-times me-2"></i> Cancelar
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row g-4">
+            <!-- Formulario de Datos (Lado Izquierdo) -->
+            <div class="col-lg-7">
+                <div class="card p-4 p-md-5 mb-4">
+                    <h4 class="mb-4 fw-bold">
+                        <span class="step-indicator">1</span> Datos de Envío
+                    </h4>
+                    
+                    <form method="POST" id="checkout-form">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Nombre Completo</label>
+                                <input type="text" name="nombre" class="form-control" placeholder="Ej: Diego García" required>
+                            </div>
+                            
+                            <!-- SELECTOR DE CIUDAD CORREGIDO -->
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Destino del Envío</label>
+                                <select id="select-ciudad" name="ciudad" class="form-select" required>
+                                <option value="" disabled selected>Seleccione el destino...</option>
+                                <option value="funza">Funza (¡Gratis!)</option>
+                                <option value="villeta">Villeta (Cundinamarca)</option>
+                            </select>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Dirección de Entrega</label>
+                                <input type="text" name="direccion" class="form-control" placeholder="Calle, Carrera, Conjunto..." required>
+                            </div>
+                            
+                            <div class="col-md-12 mb-4">
+                                <label class="form-label">Teléfono de Contacto</label>
+                                <input type="tel" name="telefono" class="form-control" placeholder="Ej: 300 123 4567" required>
+                            </div>
+                        </div>
+
+                        <h4 class="mb-4 fw-bold pt-3 border-top">
+                            <span class="step-indicator">2</span> Método de Pago
+                        </h4>
+                        
+                        <div class="mb-4">
+                            <div class="form-check card p-3 border mb-2" style="cursor: pointer;">
+                                <input class="form-check-input" type="radio" name="metodo_pago" id="pago1" value="TRANSFERENCIA" checked>
+                                <label class="form-check-label d-flex justify-content-between w-100" for="pago1">
+                                    <span><i class="fas fa-university me-2 text-primary"></i> Transferencia Nequi / Daviplata</span>
+                                    <strong>Recomendado</strong>
+                                </label>
+                            </div>
+                            <div class="form-check card p-3 border" style="cursor: pointer;">
+                                <input class="form-check-input" type="radio" name="metodo_pago" id="pago2" value="CONTRAENTREGA">
+                                <label class="form-check-label d-flex justify-content-between w-100" for="pago2">
+                                    <span><i class="fas fa-truck me-2 text-success"></i> Pago contra entrega</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-confirm w-100 mt-2">
+                            Confirmar Pedido <i class="fas fa-chevron-right ms-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Resumen de Orden (Lado Derecho) -->
+            <div class="col-lg-5">
+                <div class="card summary-card p-4 p-md-5 shadow-sm sticky-lg-top" style="top: 20px;">
+                    <h4 class="mb-4 fw-bold text-white text-center">Resumen de Orden</h4>
+                    
+                    <div class="products-list mb-4" style="max-height: 200px; overflow-y: auto;">
+                        {% for item in carrito %}
+                        <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-white border-opacity-10">
+                            <div class="text-white">
+                                <span class="fw-bold" style="font-size: 0.9rem;">{{ item.nombre|truncatechars:25 }}</span>
+                                <br>
+                                <small class="opacity-75">{{ item.cantidad }} unidad(es)</small>
+                            </div>
+                            <span class="text-white fw-bold">$ {{ item.precio|intcomma }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- El subtotal se mantiene estático, el envío y total cambian con JS -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="opacity-75">Productos</span>
+                        <span class="fw-bold">$ {{ total|intcomma }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="opacity-75">Envío</span>
+                        <span id="envio-valor" class="fw-bold text-white">$ 0</span>
+                    </div>
+                    
+                    <hr class="bg-white opacity-25">
+                    
+                    <div class="d-flex justify-content-between mb-4">
+                        <h3 class="fw-bold">Total</h3>
+                        <h3 id="total-valor" class="fw-bold text-white">$ {{ total|intcomma }}</h3>
+                    </div>
+
+                    <div class="p-3 bg-white bg-opacity-10 rounded-4 mt-4 text-center">
+                        <small><i class="fas fa-shield-alt me-2"></i> Compra Protegida por <strong>GrassPet</strong></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-5 text-muted">
+        <small>&copy; 2026 GRASSPET - Higiene Natural Premium</small>
+    </footer>
+
+<!-- Pasamos los datos de Django a un formato que JS entienda sin errores -->
+<!-- Datos del carrito para el script -->
+<script id="datos-carrito" type="application/json">
+    [
+        {% for item in carrito %}
+        {
+            "esXL": {{ item.producto.es_xl|yesno:"true,false" }},
+            "cantidad": {{ item.cantidad|default:1 }}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ciudadSelect = document.getElementById('select-ciudad');
+    const envioDisplay = document.getElementById('envio-valor');
+    const totalDisplay = document.getElementById('total-valor');
+
+    // TEST: Si no hay IDs, esto nos avisará en la consola (F12)
+    if (!ciudadSelect || !envioDisplay || !totalDisplay) {
+        console.error("Faltan IDs en el HTML: select-ciudad, envio-valor o total-valor");
+        return;
+    }
+
+    // Limpiamos el total de Django: "$ 255.000,0" -> 255000
+    const totalBaseRaw = "{{ total|default:0 }}";
+    const totalBase = parseFloat(totalBaseRaw.replace(/\./g, '').replace(',', '.')) || 0;
+
+    // Leemos los productos del bloque JSON de arriba
+    const items = JSON.parse(document.getElementById('datos-carrito').textContent);
+
+    ciudadSelect.addEventListener('change', function() {
+        const seleccion = ciudadSelect.value;
+        let envioTotal = 0;
+
+        items.forEach(item => {
+            if (seleccion === "villeta") {
+                // Tarifa Villeta: XL $65.000, Normal $35.000
+                envioTotal += item.esXL ? 65000 : 35000;
+            } else if (seleccion === "funza") {
+                envioTotal += 0;
+            }
+            // Agrega aquí Facatativá o Madrid si los necesitas
+        });
+
+        // Actualizamos Envío
+        envioDisplay.innerText = envioTotal > 0 ? "$ " + envioTotal.toLocaleString('es-CO') : "¡Gratis!";
+
+        // Actualizamos Total con el formato exacto de GrassPet
+        const granTotal = totalBase + envioTotal;
+        totalDisplay.innerText = "$ " + granTotal.toLocaleString('es-CO', { 
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1 
+        });
+    });
+});
+</script>
+
+</body>
+</html>

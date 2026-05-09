@@ -1,0 +1,546 @@
+{% load humanize %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRASSPET | Higiene Natural Premium</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:700&family=Montserrat:wght@400;700&family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --grass-vibrant: #2ecc71;
+            --grass-deep: #1b4f32;
+            --text-dark: #2c3e50;
+            --text-muted: #636e72;
+        }
+
+        html { scroll-behavior: smooth; }
+        [id] { scroll-margin-top: 90px; }
+
+        body { 
+            background-color: #fcfcfc; 
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background-color: white !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .brand-logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            margin: 0;
+        }
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            padding: 0.5rem 1.2rem !important;
+        }
+
+        .btn-cart {
+            border: 2px solid var(--grass-deep);
+            color: var(--grass-deep);
+            font-weight: 800;
+            border-radius: 50px;
+            padding: 0.5rem 1.8rem;
+            transition: 0.3s;
+            background: transparent;
+            position: relative;
+        }
+        .btn-cart:hover {
+            background-color: var(--grass-deep);
+            color: white;
+            transform: scale(1.05);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--grass-vibrant);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.7rem;
+        }
+
+        /* --- HERO BANNER OPTIMIZADO --- */
+.hero-banner-full {
+    position: relative;
+    width: 100%;
+    /* En celulares le damos un poco más de altura para que no se vea tan pequeño */
+    height: 85vh; 
+    min-height: 400px;
+    background-image: url("{% static 'img/banner1.png' %}");
+    
+    /* ESTO ES LO IMPORTANTE */
+    background-size: cover;      /* La imagen cubre todo el espacio */
+    background-position: center; /* Se mantiene centrada siempre */
+    background-repeat: no-repeat;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* Ajuste específico para celulares (Pantallas menores a 768px) */
+@media (max-width: 768px) {
+    .hero-banner-full {
+        height: 50vh; /* Bajamos un poco la altura en móvil para que se vea más contenido abajo */
+        background-position: 70% center; /* Desplazamos la imagen un poco si el perrito queda muy a la orilla */
+    }
+    
+    .hero-title {
+        font-size: 2.2rem !important; /* Achicamos el texto para que no tape toda la imagen */
+    }
+}
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.45); 
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            max-width: 850px;
+            padding: 20px;
+        }
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.4);
+        }
+
+        /* --- SECCIÓN VENTAJAS --- */
+        .section-ventajas {
+            padding: 100px 0;
+            background-color: #ffffff;
+        }
+        .ventaja-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            transition: 0.4s;
+        }
+        .ventaja-item:hover { transform: translateX(15px); }
+        .icon-small-circle {
+            min-width: 60px; height: 60px; background-color: #e8f8f0; color: var(--grass-vibrant);
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-right: 20px; transition: 0.3s;
+        }
+        .ventaja-item:hover .icon-small-circle { background-color: var(--grass-vibrant); color: white; }
+
+        /* --- PRODUCTOS (DISEÑO SERIO/PREMIUM) --- */
+        .premium-card {
+            border: none;
+            border-radius: 30px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            padding: 25px;
+        }
+        .premium-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .premium-img-container {
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .premium-img-container img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .premium-title {
+            font-family: 'Libre Baskerville', serif;
+            color: var(--grass-deep);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        .premium-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.4;
+            min-height: 40px;
+        }
+        .premium-price {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--grass-vibrant);
+            margin-bottom: 20px;
+            display: block;
+        }
+        .btn-premium-add {
+            background-color: transparent;
+            color: var(--grass-deep);
+            border: 2px solid var(--grass-deep);
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-weight: 700;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-premium-add:hover {
+            background-color: var(--grass-deep);
+            color: white;
+        }
+
+        /* --- PANEL PEDIDO --- */
+        .item-pedido-lista {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .mini-img-pedido {
+            width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px;
+        }
+        .info-pedido { flex-grow: 1; }
+        .nombre-p-pedido { font-weight: 700; color: var(--grass-deep); }
+        .btn-remove { color: #ff7675; cursor: pointer; transition: 0.2s; }
+        .btn-remove:hover { transform: scale(1.2); }
+
+        .section-subtitle {
+            color: #636e72;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body id="top">
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#top">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" height="40" class="me-2">
+                <h1 class="brand-logo-text">
+                    <span style="color: var(--grass-deep);">GRASS</span><span style="color: var(--grass-vibrant);">PET</span>
+                </h1>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto text-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lista_productos' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#ventajas">Beneficios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#productos">Productos</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
+                    </li>
+                </ul>
+                <div class="d-flex justify-content-center">
+                    <button class="btn-cart" data-bs-toggle="offcanvas" data-bs-target="#panelPedido">
+                        <i class="fas fa-paw me-2"></i> Mi Pedido
+                        <!-- En tu navbar -->
+                        <span id="cart-count" class="badge">
+                            {{ total_items_carrito|default:0 }}
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="panelPedido">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="fw-bold m-0" style="color: var(--grass-deep);">Mi Pedido Actual</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+    <div class="offcanvas-body d-flex flex-column">
+    <!-- Este ID es la clave de todo -->
+    <div id="lista-pedido-interactiva" class="flex-grow-1">
+        {% for item in carrito_detallado %}
+            <div class="item-pedido-lista">
+                <img src="{{ item.producto.imagen.url }}" class="mini-img-pedido">
+                <div class="info-pedido">
+                    <div class="nombre-p-pedido">{{ item.producto.nombre }}</div>
+                    <div class="small text-muted">{{ item.cantidad }} x <b>$ {{ item.producto.precio }}</b></div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center text-muted py-5">No hay productos en tu pedido.</p>
+        {% endfor %}
+    </div>
+</div>
+
+ <div id="seccion-botones-carrito" class="border-top pt-3 mt-auto p-3">
+    
+    <!-- 1. LISTA DE PRODUCTOS -->
+    <div id="lista-pedido-interactiva">
+        {% if request.session.carrito.items %}
+            {% for key, item in request.session.carrito.items %}
+                <div class="d-flex mb-3 align-items-center">
+                    {% if item.imagen %}
+                        <img src="{{ item.imagen }}" width="50" class="rounded shadow-sm">
+                    {% endif %}
+                    
+                </div>
+            {% endfor %}
+        
+        {% endif %}
+    </div>
+
+    <!-- 2. TOTAL Y BOTONES -->
+    <div id="cart-footer">
+        {% if request.session.carrito.items %}
+            <hr class="my-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="h5 fw-bold m-0" style="color: var(--grass-deep);">Total:</span>
+                <span class="h4 fw-bold m-0" style="color: var(--grass-vibrant); font-weight: 800;">
+                    $ {{ subtotal_panel }}
+                </span>
+            </div>
+            <div class="d-grid gap-2">
+                <a href="{% url 'ver_carrito' %}" class="btn btn-success w-100 py-3 mb-1" style="border-radius: 15px; background-color: var(--grass-vibrant); border: none;">
+                    <b>Ver Mi Carrito</b>
+                </a>
+                <a href="{% url 'checkout' %}" class="btn btn-success py-3" style="border-radius: 15px; background-color: var(--grass-deep); border: none;">
+                    Finalizar Compra
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+        
+        
+</div>
+
+        
+        </div>
+    </div>
+
+    <header class="hero-banner-full">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <h1 class="hero-title">El sanitario natural <br> que <span style="color: var(--grass-vibrant);">tus mascotas</span> amarán.</h1>
+            <p class="fs-4 mt-3">Higiene premium y 100% natural para el consentido de la casa.</p>
+            <a href="https://wa.me/573159595732" class="btn btn-success p-3 px-5 rounded-pill fw-bold mt-3" target="_blank">
+                <i class="fab fa-whatsapp me-3 fa-lg"></i> Contactar Ahora
+            </a>
+        </div>
+    </header>
+
+    <section id="ventajas" class="section-ventajas">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold" style="color: var(--grass-deep); font-size: 2.8rem;">¿Por qué elegir Grasspet?</h2>
+                <div style="width: 80px; height: 4px; background: var(--grass-vibrant); margin: 20px auto;"></div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="ventaja-item">
+                        <div class="icon-small-circle"><i class="fas fa-leaf"></i></div>
+                        <div class="ventaja-info">
+                            <h4>Frescura Orgánica</h4>
+                            <p>Césped 100% natural que absorbe fluidos y neutraliza olores de raíz.</p>
+                        </div>
+                    </div>
+                    <div class="ventaja-item">
+                        <div class="icon-small-circle"><i class="fas fa-hand-holding-heart"></i></div>
+                        <div class="ventaja-info">
+                            <h4>Cero Mantenimiento</h4>
+                            <p>Sin químicos ni lavados complicados. Práctico, limpio y biodegradable.</p>
+                        </div>
+                    </div>
+                    <div class="ventaja-item">
+                        <div class="icon-small-circle"><i class="fas fa-dog"></i></div>
+                        <div class="ventaja-info">
+                            <h4>Bienestar Mascota</h4>
+                            <p>Protege sus almohadillas y activa su instinto natural sin ansiedad.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 ps-lg-5 text-center">
+                    <img src="{% static 'img/ventajas.png' %}" class="img-fluid rounded-4 shadow" alt="Beneficios">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main id="productos" class="container py-5">
+        <div class="text-center">
+            <h2 class="fw-bold mb-3" style="color: var(--grass-deep); font-size: 2.8rem;">Bienestar para tu mascota</h2>
+            <p class="section-subtitle">Innovación y diseño al servicio de su comodidad y la protección del planeta.</p>
+        </div>
+
+        <div class="row">
+            {% for p in productos %}
+            <div class="col-md-4 mb-4">
+                <div class="premium-card text-center h-100">
+                    <div class="premium-img-container">
+                        {% if p.imagen %}<img src="{{ p.imagen.url }}" alt="{{ p.nombre }}">{% endif %}
+                    </div>
+                    <div class="card-body p-0">
+                        <h2 class="premium-title">{{ p.nombre }}</h2>
+                        <p class="premium-description">{{ p.descripcion|linebreaksbr }}</p>
+                        {% load humanize %}
+                        <span class="premium-price">$ {{ p.precio|intcomma }}</span>
+                        <button class="btn-premium-add" 
+                            onclick="agregarAlCarritoAjax(event, {{ p.id }})">
+                                <i class="fas fa-plus-circle me-2"></i> Agregar a mi pedido
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+<script>
+function agregarAlCarritoAjax(event, id) {
+    event.preventDefault();
+
+    fetch(`/agregar/${id}/`, {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'ok') {
+            // 1. Actualizamos el contador de la burbuja (cart-count)
+            const contador = document.getElementById('cart-count');
+            if (contador) {
+                contador.innerText = data.carrito_total_items;
+                
+                // Efecto visual de escala
+                contador.style.transition = "transform 0.1s";
+                contador.style.transform = "scale(1.4)";
+                setTimeout(() => contador.style.transform = "scale(1)", 200);
+            }
+
+            // 2. Sincronizamos el panel lateral sin recargar la página
+            fetch(window.location.href)
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Actualización de la Lista de Productos
+                    const nuevoContenido = doc.getElementById('lista-pedido-interactiva');
+                    const listaActual = document.getElementById('lista-pedido-interactiva');
+                    
+                    if (nuevoContenido && listaActual) {
+                        listaActual.innerHTML = nuevoContenido.innerHTML;
+                    }
+
+                    // Actualización de los Botones (Ver Carrito / Finalizar Compra)
+                    const nuevoFooter = doc.getElementById('cart-footer');
+                    const footerActual = document.getElementById('cart-footer');
+                    
+                    if (nuevoFooter && footerActual) {
+                        footerActual.innerHTML = nuevoFooter.innerHTML;
+                    }
+                });
+        }
+    })
+    .catch(error => console.error("Error en la petición Ajax:", error));
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const depSelect = document.getElementById('select-departamento');
+    const ciuSelect = document.getElementById('select-ciudad');
+    const envioDisplay = document.getElementById('envio-valor');
+    const totalDisplay = document.getElementById('total-valor');
+
+    // Configuración de GrassPet
+    const municipiosGratis = ["funza", "mosquera", "madrid", "bogotá", "cota", "chía"];
+    const tieneXL = {% if tiene_xl %}true{% else %}false{% endif %};
+    const totalProductos = {{ total|default:0 }};
+
+    // 1. Cargar Departamentos desde la API de Colombia
+    fetch('https://api-colombia.com/api/v1/Department')
+        .then(response => response.json())
+        .then(data => {
+            data.sort((a, b) => a.name.localeCompare(b.name)).forEach(dep => {
+                depSelect.innerHTML += `<option value="${dep.id}">${dep.name}</option>`;
+            });
+        });
+
+    // 2. Cuando cambia el Departamento, cargar Ciudades
+    depSelect.addEventListener('change', function() {
+        const depId = this.value;
+        if (!depId) return;
+
+        ciuSelect.disabled = true;
+        ciuSelect.innerHTML = '<option>Cargando ciudades...</option>';
+
+        fetch(`https://api-colombia.com/api/v1/Department/${depId}/cities`)
+            .then(response => response.json())
+            .then(data => {
+                ciuSelect.innerHTML = '<option value="">Seleccione Ciudad...</option>';
+                data.sort((a, b) => a.name.localeCompare(b.name)).forEach(ciudad => {
+                    ciuSelect.innerHTML += `<option value="${ciudad.name.toLowerCase()}">${ciudad.name}</option>`;
+                });
+                ciuSelect.disabled = false;
+            });
+    });
+
+    // 3. Calcular Envío al seleccionar Ciudad
+    ciuSelect.addEventListener('change', function() {
+        const ciudad = this.value;
+        let costoEnvio = 0;
+
+        if (ciudad) {
+            // Normalizamos el nombre para comparar (quitando tildes básicas)
+            const ciudadNormalizada = ciudad.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const esGratis = municipiosGratis.some(m => 
+                m.normalize("NFD").replace(/[\u0300-\u036f]/g, "") === ciudadNormalizada
+            );
+
+            if (esGratis) {
+                costoEnvio = 0;
+                envioDisplay.innerHTML = '<span class="badge bg-success">Gratis</span>';
+            } else {
+                costoEnvio = tieneXL ? 15000 : 10000;
+                envioDisplay.innerText = `$ ${costoEnvio.toLocaleString('es-CO')}`;
+            }
+        }
+
+        const granTotal = totalProductos + costoEnvio;
+        totalDisplay.innerText = `$ ${granTotal.toLocaleString('es-CO')}`;
+    });
+});
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+
+</body>
+</html>

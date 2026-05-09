@@ -4,27 +4,30 @@ from .models import Producto
 
 
 def lista_productos(request):
-    # Esto asegura que solo traiga productos que tengan categoría, evitando errores de renderizado
-    productos = Producto.objects.select_related('categoria').all()
-    
+    productos = Producto.objects.all()
     carrito_session = request.session.get('carrito', {})
+    
     carrito_completo = []
     subtotal_acumulado = 0
     
     for p_id, cantidad in carrito_session.items():
         try:
-            p = Producto.objects.get(id=p_id)
-            subtotal_item = p.precio * cantidad
-            subtotal_acumulado += subtotal_item
-            carrito_completo.append({
-                'producto': p,
-                'cantidad': cantidad,
-                'subtotal': subtotal_item
-            })
-        except (Producto.DoesNotExist, ValueError):
+            # Usamos filter().first() para que si no existe, devuelva None y no rompa la página
+            p = Producto.objects.filter(id=p_id).first()
+            if p:
+                subtotal_item = p.precio * cantidad
+                subtotal_acumulado += subtotal_item
+                carrito_completo.append({
+                    'producto': p,
+                    'cantidad': cantidad,
+                    'subtotal': subtotal_item
+                })
+        except Exception:
             continue
 
-    # Verifica si tu archivo está en 'lista.html' o 'productos/lista.html'
+    # IMPORTANTE: Asegúrate de que la ruta coincida con tu carpeta de templates
+    # Si lista.html está suelto en templates, usa 'lista.html'
+    # Si está en templates/productos, usa 'productos/lista.html'
     return render(request, 'productos/lista.html', {
         'productos': productos,
         'carrito_detallado': carrito_completo,

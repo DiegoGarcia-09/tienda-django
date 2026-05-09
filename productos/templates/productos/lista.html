@@ -283,7 +283,7 @@
     <div id="lista-pedido-interactiva" class="flex-grow-1">
         {% for item in carrito_detallado %}
             <div class="item-pedido-lista">
-                <img src="{{ item.producto.imagen.url }}" class="mini-img-pedido">
+                <img src="{{ item.producto.imagen_url|default:'https://via.placeholder.com/150' }}" class="mini-img-pedido">
                 <div class="info-pedido">
                     <div class="nombre-p-pedido">{{ item.producto.nombre }}</div>
                     <div class="small text-muted">{{ item.cantidad }} x <b>$ {{ item.producto.precio }}</b></div>
@@ -297,20 +297,25 @@
 
  <div id="seccion-botones-carrito" class="border-top pt-3 mt-auto p-3">
     
-    <!-- 1. LISTA DE PRODUCTOS -->
     <div id="lista-pedido-interactiva">
-        {% if request.session.carrito.items %}
-            {% for key, item in request.session.carrito.items %}
-                <div class="d-flex mb-3 align-items-center">
-                    {% if item.imagen %}
-                        <img src="{{ item.imagen }}" width="50" class="rounded shadow-sm">
-                    {% endif %}
-                    
+    {% if carrito_detallado %}
+        {% for item in carrito_detallado %}
+            <div class="d-flex mb-3 align-items-center">
+                {% if item.producto.imagen_url %}
+                    <img src="{{ item.producto.imagen_url }}" width="50" class="rounded shadow-sm">
+                {% else %}
+                    <img src="https://via.placeholder.com/50" width="50" class="rounded shadow-sm">
+                {% endif %}
+                <div class="ms-3">
+                    <span class="d-block fw-bold" style="font-size: 0.9rem;">{{ item.producto.nombre }}</span>
+                    <span class="text-muted" style="font-size: 0.8rem;">Cant: {{ item.cantidad }}</span>
                 </div>
-            {% endfor %}
-        
-        {% endif %}
-    </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-center text-muted">Tu carrito está vacío</p>
+    {% endif %}
+</div>
 
     <!-- 2. TOTAL Y BOTONES -->
     <div id="cart-footer">

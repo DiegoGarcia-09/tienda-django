@@ -72,7 +72,7 @@ def ver_carrito(request):
             continue
 
     # Aquí calculamos el total con el envío de $10.000
-    envio = 10000
+    envio = 0
     total_con_envio = total_compra + envio if total_compra > 0 else 0
 
     return render(request, 'productos/carrito.html', {
@@ -201,10 +201,28 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+
+
 def confirmar_pedido(request):
     if request.method == 'POST':
         # ... (aquí guardas tu pedido en la base de datos) ...
+        # Definimos los valores que el correo necesita mostrar
+        carrito_items = carrito.get_items() # O la lógica que uses para listar productos
+        subtotal_calc = sum(item.total_item for item in carrito_items)
 
+        # Lógica de envío (Villeta/Funza)
+        ciudad_destino = request.POST.get('ciudad', '').lower()
+        envio_calc = 35000 if ciudad_destino == 'villeta' else 0
+
+        # Total Final
+        total_calc = subtotal_calc + envio_calc
+
+        # Guardamos el pedido para generar el ID real
+        nuevo_pedido = Pedido.objects.create(
+            usuario=request.user,
+            total=total_calc,
+            direccion=request.POST.get('direccion')
+        )
         # Preparamos los datos para el correo
         contexto = {
             'usuario': request.user,
@@ -232,3 +250,4 @@ def confirmar_pedido(request):
         email.send()
 
         return render(request, 'exito.html')
+    

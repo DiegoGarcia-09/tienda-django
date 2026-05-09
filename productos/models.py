@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
@@ -19,23 +20,7 @@ class FAQ(models.Model):
     def __str__(self):
         return self.pregunta
     
+# En productos/models.py
 class Pedido(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    nombre_completo = models.CharField(max_length=100)
-    direccion = models.CharField(max_length=250)
-    ciudad = models.CharField(max_length=100)
-    # Agregamos el teléfono aquí mismo
-    telefono = models.CharField(max_length=20, null=True, blank=True) 
-    metodo_pago = models.CharField(max_length=50, choices=[
-        ('TRANSFERENCIA', 'Transferencia Bancaria'),
-        ('CONTRAENTREGA', 'Pago contra entrega'),
-        ('MERCADOPAGO', 'Mercado Pago')
-    ])
-    total = models.DecimalField(max_digits=10, decimal_places=2)
-    pagado = models.BooleanField(default=False)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Pedido {self.id} - {self.nombre_completo}"
-    from cloudinary.models import CloudinaryField
-    imagen = CloudinaryField('image')
+    # ... tus otros campos ...
+    imagen = CloudinaryField('image', null=True, blank=True) # Agrega null y blank

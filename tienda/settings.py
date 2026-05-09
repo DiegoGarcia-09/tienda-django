@@ -110,19 +110,10 @@ EMAIL_HOST_USER = 'diegofdogarcia01@gmail.com' # El correo de tu tienda
 EMAIL_HOST_PASSWORD = 'fsgx iymt hbiw ffui' # No es tu clave normal
 
 
-# Reemplaza la sección 10 que te pasé antes por esta:
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.StaticFilesStorage", # Versión más estable para Render
-    },
-}
+# Configuración de Almacenamiento
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# Muy importante para que se armen los links de las fotos
-MEDIA_URL = '/media/'
-
+# Tus credenciales de Cloudinary (búscalas en tu Dashboard de Cloudinary)
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'de0qx1mkm',
     'API_KEY': '943213471526688',

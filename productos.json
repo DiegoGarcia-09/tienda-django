@@ -1,0 +1,52 @@
+[
+{
+  "model": "productos.producto",
+  "pk": 8,
+  "fields": {
+    "nombre": "Sanitario estandar en cajita en carton",
+    "descripcion": "📏 Medidas disponibles:\r\n▫️80 cm de largo X 50 cm de ancho x 9 cm de alto\r\n\r\n▫️1 módulo de sanitario grass pet 100% natural",
+    "precio": "80000",
+    "imagen": "productos/sanitario_estandar_en_cajita_en_carton_6PqjfVB.png"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 9,
+  "fields": {
+    "nombre": "Sanitario Estandar + Base de madera",
+    "descripcion": "📏 Medidas disponibles:\r\n▫️80 cm de largo X 50 cm de ancho x 9 cm de alto\r\n\r\n▫️1 módulo de sanitario grass pet 100% natural",
+    "precio": "115000",
+    "imagen": "productos/SANITARIO_ESTANDAR__BASE_DE_MADERA_zgRu1ti.png"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 10,
+  "fields": {
+    "nombre": "Sanitario XL en cajita de carton",
+    "descripcion": "📏 Medidas disponibles:\r\n▫️ 80 cm de ancho x 100 cm de largo x 9 cm de alto\r\n▫️ 50 cm de ancho x 160 cm de largo x 9 cm de alto\r\n\r\n▫️2 módulo de sanitario grass pet 100% natural",
+    "precio": "140000",
+    "imagen": "productos/SANITARIO_XL_EN_CAJITA_DE_CARTON_jzv3yuK.png"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 11,
+  "fields": {
+    "nombre": "Sanitario XL cuadrado + Base de madera",
+    "descripcion": "📏 Medidas disponibles:\r\n▫️ 80 cm de ancho x 100 cm de largo x 9 cm de alto\r\n\r\n▫️2 módulo de sanitario grass pet 100% natural",
+    "precio": "180000",
+    "imagen": "productos/SANITARIO_XL_CUADRADO_BASE_DE_MADERA_4eEtC4y.png"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 12,
+  "fields": {
+    "nombre": "Sanitario Xl panorámico + Base de madera",
+    "descripcion": "📏 Medidas disponibles:\r\n▫️ 50 cm de ancho x 160 cm de largo x 9 cm de alto\r\n\r\n▫️2 módulo de sanitario grass pet 100% natural",
+    "precio": "180000",
+    "imagen": "productos/Sanitario_Xl_panorámico__Base_de_madera.png"
+  }
+}
+]

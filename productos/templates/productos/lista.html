@@ -401,7 +401,11 @@
             <div class="col-md-4 mb-4">
                 <div class="premium-card text-center h-100">
                     <div class="premium-img-container">
-                        {% if p.imagen %}<img src="{{ p.imagen.url }}" alt="{{ p.nombre }}">{% endif %}
+                        {% if p.imagen_url %}
+                            <img src="{{ p.imagen_url }}" alt="{{ p.nombre }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Sin imagen">
+                        {% endif %}
                     </div>
                     <div class="card-body p-0">
                         <h2 class="premium-title">{{ p.nombre }}</h2>

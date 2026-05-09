@@ -23,11 +23,11 @@ def lista_productos(request):
         except Producto.DoesNotExist:
             continue
 
-    return render(request, 'productos/lista.html', {
-        'productos': productos,
-        'carrito_detallado': carrito_completo,
-        'subtotal_panel': subtotal_acumulado
-    })
+    return render(request, 'lista.html', {
+    'productos': productos,
+    'carrito_detallado': carrito_completo,
+    'subtotal_panel': subtotal_acumulado
+})
 
 from django.http import JsonResponse # Asegúrate de tener este import arriba
 

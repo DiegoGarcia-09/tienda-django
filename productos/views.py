@@ -63,14 +63,20 @@ def ver_carrito(request):
             producto = Producto.objects.get(id=p_id)
             subtotal = producto.precio * cantidad
             total_compra += subtotal
+
             productos_finales.append({
                 'producto': producto,
                 'cantidad': cantidad,
                 'subtotal': subtotal
             })
+
         except Producto.DoesNotExist:
             continue
 
+    return render(request, 'productos/carrito.html', {
+        'carrito': productos_finales,
+        'total': total_compra
+    })
     
 
 def eliminar_del_carrito(request, producto_id):
